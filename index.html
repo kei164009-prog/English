@@ -36,6 +36,7 @@
             line-height: 1.6;
         }
 
+        /* 全画面レイアウト */
         .app-layout {
             width: 100%;
             min-height: 100vh;
@@ -234,6 +235,7 @@
         }
         .btn-link:hover { color: var(--link-hover); }
 
+        /* 「次の問題に進む」ボタン */
         .btn-next-action {
             background-color: var(--link-blue);
             color: #fff;
@@ -819,11 +821,11 @@
         </main>
     </div>
 
-    <!-- 忍者AdMax 広告掲載エリア（ログイン前・後を問わず常に最下部に確実に常駐） -->
+    <!-- 忍者AdMax 広告掲載エリア（ご指定のコードに更新済み） -->
     <div class="admax-outer-wrapper">
         <div class="admax-inner">
             <!-- admax -->
-            <script src="https://adm.shinobi.jp/s/d29e3c2e6b7256b85a4ec8c06cd9d45b"></script>
+            <script src="https://adm.shinobi.jp/s/ca67c1fd533d4885de58f566747f5967"></script>
             <!-- admax -->
         </div>
     </div>
@@ -2035,6 +2037,7 @@ const App = {
         else this.showView('mode_select');
     },
 
+    /* 四択クイズ */
     loadChoiceQuestion() {
         this.isWaitingNextAction = false;
         if (this.currentSessionIndex >= this.sessionQuestions.length) {
@@ -2129,6 +2132,7 @@ const App = {
         document.getElementById('choice-next-btn-container').classList.remove('hidden');
     },
 
+    /* マッチングタスク */
     loadMatchingTask() {
         const size = Math.min(5, this.sessionQuestions.length);
         let pool = [];
@@ -2308,4 +2312,4 @@ const App = {
 window.onload = () => App.init();
 </script>
 </body>
-</html>   
+</html>
