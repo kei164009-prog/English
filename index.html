@@ -49,35 +49,79 @@
             width: 100%;
             border-bottom: 1px solid var(--border-light);
             background: #fff;
-            padding: 12px 32px;
+            padding: 10px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
         .site-title {
-            font-size: 19px;
+            font-size: 18px;
             font-weight: 700;
             color: var(--text-main);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             letter-spacing: 0.02em;
         }
         .site-title .version-tag {
             font-size: 11px;
             font-weight: normal;
             border: 1px solid var(--border-light);
-            padding: 1px 6px;
+            padding: 1px 5px;
             border-radius: var(--radius);
             color: var(--text-sub);
         }
 
-        .header-meta {
+        /* ヘッダー操作アイコン群 */
+        .header-actions {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 6px;
+        }
+
+        .user-label {
             font-size: 13px;
+            margin-right: 6px;
+            white-space: nowrap;
+        }
+
+        .icon-btn {
+            background: none;
+            border: 1px solid var(--border-light);
+            color: var(--text-main);
+            padding: 5px 8px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            font-size: 12px;
+            transition: all 0.1s;
+            height: 32px;
+        }
+        .icon-btn:hover {
+            border-color: var(--link-blue);
+            color: var(--link-blue);
+            background: var(--bg-active);
+        }
+        .icon-btn.active {
+            border-color: var(--link-blue);
+            color: var(--link-blue);
+            font-weight: bold;
+        }
+        .icon-btn svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .icon-btn .btn-text {
+            display: inline;
         }
 
         /* ナビゲーションバー */
@@ -85,9 +129,10 @@
             width: 100%;
             border-bottom: 1px solid var(--border-light);
             background: var(--bg-subtle);
-            padding: 0 32px;
+            padding: 0 24px;
             display: flex;
             gap: 4px;
+            overflow-x: auto;
         }
 
         .site-nav button {
@@ -100,6 +145,7 @@
             color: var(--text-sub);
             cursor: pointer;
             border-radius: 0;
+            white-space: nowrap;
             transition: color 0.1s;
         }
         .site-nav button:hover {
@@ -122,7 +168,7 @@
         .main-content {
             width: 100%;
             flex: 1;
-            padding: 28px 32px 48px;
+            padding: 24px 24px 48px;
             max-width: 1400px;
             margin: 0 auto;
         }
@@ -148,12 +194,12 @@
             margin-bottom: 20px;
         }
 
-        /* ボタン（青と黒のみ） */
+        /* ボタン */
         button.btn {
             background-color: var(--link-blue);
             color: #ffffff;
             border: 1px solid var(--link-blue);
-            padding: 7px 14px;
+            padding: 7px 16px;
             border-radius: var(--radius);
             font-size: 13px;
             font-weight: 500;
@@ -188,6 +234,22 @@
             display: inline-block;
         }
         .btn-link:hover { color: var(--link-hover); }
+
+        /* 「次の問題に進む」用の目立つアクションボタン */
+        .btn-next-action {
+            background-color: var(--link-blue);
+            color: #fff;
+            border: 1px solid var(--link-blue);
+            padding: 10px 24px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: var(--radius);
+            cursor: pointer;
+            margin-top: 14px;
+        }
+        .btn-next-action:hover {
+            background-color: var(--link-hover);
+        }
 
         /* フォーム入力 */
         input[type="text"], input[type="password"], textarea {
@@ -360,6 +422,20 @@
             line-height: 1.5;
         }
 
+        /* 判定表示（◯ / ✕ の超大型表示） */
+        .judgment-symbol {
+            font-size: 48px;
+            line-height: 1;
+            margin-bottom: 4px;
+            display: inline-block;
+        }
+        .judgment-symbol.correct {
+            color: var(--link-blue);
+        }
+        .judgment-symbol.wrong {
+            color: var(--text-main);
+        }
+
         /* 4択クイズのレイアウト */
         .quiz-choice-grid {
             display: grid;
@@ -472,8 +548,16 @@
         .hidden { display: none !important; }
         .flex-row { display: flex; align-items: center; justify-content: space-between; }
 
+        /* スマホ向け最適化 */
         @media (max-width: 768px) {
-            .site-header, .site-nav, .main-content { padding-left: 16px; padding-right: 16px; }
+            .site-header { padding: 8px 12px; }
+            .site-title { font-size: 16px; }
+            .site-title .version-tag { display: none; }
+            .header-actions { gap: 4px; }
+            .icon-btn .btn-text { display: none; }
+            .icon-btn { padding: 6px; }
+            .site-nav { padding: 0 12px; }
+            .main-content { padding: 16px 12px 36px; }
             .stats-row { grid-template-columns: 1fr; }
             .mode-grid { grid-template-columns: 1fr; }
             .quiz-choice-grid { grid-template-columns: 1fr; }
@@ -500,23 +584,42 @@
     <div id="view-main" class="hidden">
         <header class="site-header">
             <div class="site-title">
-                Repetit <span class="version-tag">SM-2 Algorithm</span>
+                Repetit <span class="version-tag">SM-2</span>
             </div>
-            <div class="header-meta">
-                <span>ユーザー: <strong id="display-user"></strong></span>
-                <span>
-                    オンライン同期: 
-                    <button class="btn-link" onclick="App.syncOnlineNotebooks()">[クラウド更新]</button>
-                </span>
-                <span>
-                    開発者権限: 
-                    <button class="btn-link" id="dev-auth-btn" onclick="App.handleDevAuthToggle()">未認証</button>
-                </span>
-                <span>
-                    検証モード: 
-                    <button class="btn-link" id="sim-mode-btn" onclick="App.toggleFastSimulation()">通常(1日=24時間)</button>
-                </span>
-                <button onclick="App.logout()" class="btn-link">ログアウト</button>
+
+            <!-- ヘッダー操作アイコンバー（スマホ対応） -->
+            <div class="header-actions">
+                <span class="user-label"><strong id="display-user"></strong></span>
+
+                <!-- クラウド同期ボタン -->
+                <button class="icon-btn" onclick="App.syncOnlineNotebooks()" title="クラウド同期 (GASから共通単語帳を取得)">
+                    <svg viewBox="0 0 24 24"><path d="M21.5 15a4.5 4.5 0 0 0-3-4.24V10a6 6 0 0 0-11.83-1.42A4 4 0 0 0 3 12.5 4 4 0 0 0 7 16.5h1"></path><polyline points="16 16 19 19 22 16"></polyline><line x1="19" y1="13" x2="19" y2="19"></line></svg>
+                    <span class="btn-text">同期</span>
+                </button>
+
+                <!-- GAS設定ボタン -->
+                <button class="icon-btn" onclick="App.showGasConfigModal()" title="Google Apps Script URL設定">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    <span class="btn-text">GAS設定</span>
+                </button>
+
+                <!-- 開発者権限トグル -->
+                <button class="icon-btn" id="dev-auth-btn" onclick="App.handleDevAuthToggle()" title="開発者権限コード(0064)">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    <span class="btn-text" id="dev-auth-text">開発</span>
+                </button>
+
+                <!-- 検証モードトグル -->
+                <button class="icon-btn" id="sim-mode-btn" onclick="App.toggleFastSimulation()" title="検証用秒速モード切替">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span class="btn-text" id="sim-mode-text">検証</span>
+                </button>
+
+                <!-- ログアウト -->
+                <button class="icon-btn" onclick="App.logout()" title="ログアウト">
+                    <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    <span class="btn-text">退出</span>
+                </button>
             </div>
         </header>
 
@@ -596,7 +699,7 @@
                     <div class="mode-grid">
                         <div class="mode-box" onclick="App.selectPlayMode('mixed')">
                             <h4>1. 並べ替え ＆ 単語入力 ミックス演習</h4>
-                            <p>英文の「文節並べ替え問題」と、意味から英単語を直接入力する「単語記述問題」が自動ミックスされて出題されます。</p>
+                            <p>「文節並べ替え」と、意味から英単語を直接入力する「単語記述」が状況に応じて自動ミックス出題されます。</p>
                         </div>
                         <div class="mode-box" onclick="App.selectPlayMode('choice')">
                             <h4>2. 四択クイズ (英単語・意味判定)</h4>
@@ -636,7 +739,7 @@
                             <div style="max-width: 480px;">
                                 <input type="text" id="mixed-word-input" placeholder="英単語を入力してEnter" autocomplete="off" autocapitalize="none" style="font-size: 18px; padding: 10px 12px;">
                             </div>
-                            <div style="display: flex; gap: 8px; margin-top: 14px;">
+                            <div style="display: flex; gap: 8px; margin-top: 14px;" id="mixed-input-action-bar">
                                 <button onclick="App.checkMixedInputAnswer()" class="btn" style="min-width: 140px;">解答を確認する</button>
                                 <button onclick="App.skipQuestion()" class="btn btn-secondary">スキップ</button>
                             </div>
@@ -650,16 +753,18 @@
                             <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 4px;">単語プール</div>
                             <div class="word-pool" id="mixed-word-pool"></div>
 
-                            <div style="display: flex; gap: 8px; margin-top: 20px;">
+                            <div style="display: flex; gap: 8px; margin-top: 20px;" id="mixed-reorder-action-bar">
                                 <button onclick="App.checkMixedReorderAnswer()" class="btn" style="min-width: 140px;">解答を確認する</button>
                                 <button onclick="App.resetCurrentQuestion()" class="btn btn-secondary">リセット</button>
                                 <button onclick="App.skipQuestion()" class="btn btn-secondary">スキップ</button>
                             </div>
                         </div>
 
-                        <!-- 結果表示 -->
-                        <div id="mixed-result" style="margin-top: 16px; font-size: 14px;"></div>
-                        <button id="mixed-speech-btn" class="btn-link" style="font-size: 14px; display:none; margin-top: 8px;">[発音を聴く]</button>
+                        <!-- 結果表示エリア -->
+                        <div id="mixed-result" style="margin-top: 16px;"></div>
+                        <div id="mixed-next-btn-container" class="hidden" style="margin-top: 16px;">
+                            <button id="mixed-next-btn" class="btn-next-action" onclick="App.goToNextQuestion()">次の問題に進む (Enter)</button>
+                        </div>
                     </div>
                 </div>
 
@@ -686,10 +791,13 @@
                         <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 6px;">正しい和訳を選択してください:</div>
                         <div class="quiz-choice-grid" id="choice-options-container"></div>
 
-                        <div style="display: flex; gap: 8px; margin-top: 14px;">
+                        <div style="display: flex; gap: 8px; margin-top: 14px;" id="choice-skip-bar">
                             <button onclick="App.skipQuestion()" class="btn btn-secondary">スキップ</button>
                         </div>
-                        <div id="choice-result" style="margin-top: 16px; font-size: 14px;"></div>
+                        <div id="choice-result" style="margin-top: 16px;"></div>
+                        <div id="choice-next-btn-container" class="hidden" style="margin-top: 16px;">
+                            <button class="btn-next-action" onclick="App.goToNextQuestion()">次の問題に進む (Enter)</button>
+                        </div>
                     </div>
                 </div>
 
@@ -708,6 +816,9 @@
                         </div>
                         <button onclick="App.skipQuestion()" class="btn btn-secondary" style="width: 100%;">セッションを中断</button>
                         <div id="matching-result" style="margin-top: 16px; text-align: center; font-size: 14px; font-weight: 600;"></div>
+                        <div id="matching-next-btn-container" class="hidden" style="margin-top: 16px; text-align: center;">
+                            <button class="btn-next-action" onclick="App.finishMatchingSession()">完了してホームに戻る</button>
+                        </div>
                     </div>
                 </div>
 
@@ -717,7 +828,50 @@
                     <button class="btn btn-secondary" onclick="App.switchTab('files')">単語帳一覧へ戻る</button>
                 </div>
             </div>
+
+            <!-- 忍者アドマックス 広告掲載エリア -->
+            <footer style="margin-top: 48px; padding-top: 24px; border-top: 1px dotted var(--border-dotted); text-align: center;">
+                <div style="display: inline-block; min-height: 60px;">
+                    <!-- admax -->
+                    <script src="https://adm.shinobi.jp/s/d29e3c2e6b7256b85a4ec8c06cd9d45b"></script>
+                    <!-- admax -->
+                </div>
+            </footer>
         </main>
+    </div>
+</div>
+
+<!-- モーダル: GAS設定 -->
+<div id="modal-gas-config" class="modal hidden">
+    <div class="modal-body" style="max-width: 600px;">
+        <h3 style="margin-bottom: 10px; font-size: 16px;">Google Apps Script (GAS) クラウド連携設定</h3>
+        <p style="font-size: 13px; color: var(--text-sub); margin-bottom: 12px;">
+            デプロイしたご自身のGASウェブアプリURLが自動設定されています。変更が必要な場合のみ編集してください。
+        </p>
+        <input type="text" id="input-gas-url" placeholder="https://script.google.com/macros/s/.../exec">
+        
+        <div style="border: 1px dashed var(--border-dotted); padding: 10px; margin: 12px 0;">
+            <div class="flex-row">
+                <span style="font-size: 12px; font-weight: 600;">コピー用GASサーバーコード</span>
+                <button class="btn-link" onclick="App.copyGasCode()">[コードをコピー]</button>
+            </div>
+            <textarea id="gas-server-code" readonly style="font-size: 11px; height: 110px; margin-top: 6px;">function doGet(e) {
+  var p = PropertiesService.getScriptProperties();
+  var data = p.getProperty('shared_notebooks') || '[]';
+  return ContentService.createTextOutput(data).setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+  var p = PropertiesService.getScriptProperties();
+  p.setProperty('shared_notebooks', e.postData.contents);
+  return ContentService.createTextOutput(JSON.stringify({status:'ok'})).setMimeType(ContentService.MimeType.JSON);
+}</textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 8px;">
+            <button onclick="App.closeGasConfigModal()" class="btn btn-secondary">閉じる</button>
+            <button onclick="App.saveGasConfig()" class="btn">保存する</button>
+        </div>
     </div>
 </div>
 
@@ -740,7 +894,7 @@
             <div style="display: flex; align-items: baseline; gap: 8px;">
                 <h3 id="manage-notebook-title" style="font-size: 18px;">単語帳の編集</h3>
                 <button class="btn-link" onclick="App.renameSelectedNotebook()">[単語帳名を変更]</button>
-                <button id="btn-publish-online" class="btn-link hidden" onclick="App.publishSelectedNotebookToOnline()">[クラウドへ公開・同期]</button>
+                <button id="btn-publish-online" class="btn-link hidden" onclick="App.publishSelectedNotebookToOnline()">[GASクラウドへ保存・同期]</button>
             </div>
             <span id="manage-system-badge" style="font-size: 12px; color: var(--text-sub);"></span>
         </div>
@@ -800,13 +954,10 @@
 
 <script>
 /**
- * オンライン共通ストレージ用設定
+ * ご提供いただいたGoogle Apps Script Web App URL（組み込み済み）
  */
-const CLOUD_SYNC_URL = "https://kvdb.io/Fd55uogXyxYdnXJvnyN8Xo/repetit_shared_notebooks";
+const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbx0xeZs_scgrZK3JGaVazrCWcJuzMK6qRC72EQCLipDGRnKA8XPIlvu9ckNBf_G7jo5/exec";
 
-/**
- * システム組み込みの公式基本単語帳データ
- */
 const DEFAULT_NOTEBOOKS = [
     {
         id: "sys_basic_vocab",
@@ -838,9 +989,6 @@ const DEFAULT_NOTEBOOKS = [
     }
 ];
 
-/**
- * 学習システム Core
- */
 const App = {
     currentUser: null,
     db: { users: {} },
@@ -850,7 +998,7 @@ const App = {
     isCreatingOnline: false,
 
     sessionMode: 'all_review',
-    currentPlayMode: null, // 'mixed', 'choice', 'matching'
+    currentPlayMode: null,
     selectedNotebookId: null,
     sessionQuestions: [],
     currentSessionIndex: 0,
@@ -860,15 +1008,68 @@ const App = {
     currentPoolWords: [],
     selectedWordIds: [],
 
-    // ミックス問題のサブ形式 ('input' または 'reorder')
     mixedSubMode: 'input',
     mixedTargetWord: '',
 
     questionStartTime: null,
     timerIntervalId: null,
+    isWaitingNextAction: false,
 
     matchingSelectedJp: null,
     matchingSelectedEn: null,
+
+    getGasUrl() {
+        return localStorage.getItem('repetit_gas_url') || DEFAULT_GAS_URL;
+    },
+
+    showGasConfigModal() {
+        document.getElementById('input-gas-url').value = this.getGasUrl();
+        document.getElementById('modal-gas-config').classList.remove('hidden');
+    },
+
+    closeGasConfigModal() {
+        document.getElementById('modal-gas-config').classList.add('hidden');
+    },
+
+    saveGasConfig() {
+        const url = document.getElementById('input-gas-url').value.trim();
+        localStorage.setItem('repetit_gas_url', url || DEFAULT_GAS_URL);
+        alert('GASエンドポイントURLを更新しました。');
+        this.closeGasConfigModal();
+    },
+
+    copyGasCode() {
+        const code = document.getElementById('gas-server-code').value;
+        navigator.clipboard.writeText(code).then(() => {
+            alert('GASコードをクリップボードにコピーしました。');
+        });
+    },
+
+    playCorrectSound() {
+        try {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (!AudioCtx) return;
+            const ctx = new AudioCtx();
+            const now = ctx.currentTime;
+
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(587.33, now); // D5
+            osc.frequency.setValueAtTime(880.00, now + 0.12); // A5
+
+            gain.gain.setValueAtTime(0.18, now);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.45);
+
+            osc.start(now);
+            osc.stop(now + 0.45);
+        } catch (e) {
+            console.error(e);
+        }
+    },
 
     getDayUnitMs() {
         return this.isFastSimulation ? 10 * 1000 : 24 * 60 * 60 * 1000;
@@ -876,21 +1077,23 @@ const App = {
 
     init() {
         const data = localStorage.getItem('google_trans_eng_db');
-        if (data) {
-            this.db = JSON.parse(data);
-        }
+        if (data) this.db = JSON.parse(data);
         const lastUser = localStorage.getItem('google_trans_eng_user');
-        if (lastUser && this.db.users[lastUser]) {
-            this.login(lastUser);
-        }
+        if (lastUser && this.db.users[lastUser]) this.login(lastUser);
+
         setInterval(() => this.updateGlobalReviewBadge(), 3000);
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && App.isWaitingNextAction) {
+                App.goToNextQuestion();
+            }
+        });
     },
 
     save() {
         localStorage.setItem('google_trans_eng_db', JSON.stringify(this.db));
     },
 
-    // 開発者モード切り替え (コード: 0064)
     handleDevAuthToggle() {
         if (this.isDeveloperMode) {
             if (confirm('開発者モードを解除して通常保護状態に戻しますか？')) {
@@ -911,7 +1114,7 @@ const App = {
             this.updateDevAuthUI();
             this.renderNotebookFiles();
             if (this.selectedNotebookId) this.renderManageQuestionsList();
-            alert('開発者認証に成功しました。\n・全端末共通の「オンライン共通単語帳」の作成・公開が可能です。\n・基本単語帳の削除・変更制限が解除されました。');
+            alert('開発者認証に成功しました (0064適用中)。\n・GASを通じた共通単語帳のクラウド保存\n・基本単語帳の削除/編集\nが可能です。');
         } else {
             alert('認証コードが正しくありません。');
         }
@@ -919,32 +1122,29 @@ const App = {
 
     updateDevAuthUI() {
         const btn = document.getElementById('dev-auth-btn');
+        const text = document.getElementById('dev-auth-text');
         const onlineBtn = document.getElementById('btn-create-online-nb');
         if (this.isDeveloperMode) {
-            btn.innerText = '有効 (コード:0064適用中)';
-            btn.style.fontWeight = 'bold';
+            btn.classList.add('active');
+            text.innerText = '有効(0064)';
             if (onlineBtn) onlineBtn.classList.remove('hidden');
         } else {
-            btn.innerText = '未認証';
-            btn.style.fontWeight = 'normal';
+            btn.classList.remove('active');
+            text.innerText = '開発';
             if (onlineBtn) onlineBtn.classList.add('hidden');
         }
     },
 
-    /* クラウド同期機能 */
+    /* Google Apps Script (GAS) クラウド同期 */
     async syncOnlineNotebooks() {
-        alert("クラウド上の共有単語帳と同期しています...");
+        const gasUrl = this.getGasUrl();
+        alert("Google Apps Script経由でクラウドと同期しています...");
         try {
-            const res = await fetch(CLOUD_SYNC_URL);
-            if (!res.ok) {
-                if (res.status === 404) {
-                    alert('現在クラウド上に公開されている共有単語帳はありません。開発者権限で新規公開してください。');
-                    return;
-                }
-                throw new Error('Sync failed with status ' + res.status);
-            }
+            const res = await fetch(gasUrl, { redirect: 'follow' });
+            if (!res.ok) throw new Error('HTTP Status ' + res.status);
+
             const onlineList = await res.json();
-            if (!Array.isArray(onlineList)) throw new Error('Data format error');
+            if (!Array.isArray(onlineList)) throw new Error('Data format is not Array');
 
             const userData = this.getUserData();
             let addedCount = 0;
@@ -964,10 +1164,10 @@ const App = {
 
             this.save();
             this.renderNotebookFiles();
-            alert(`オンライン同期が完了しました (${addedCount} 件の単語帳を受信/更新)。他のスマホでも同じ単語帳が利用可能です。`);
+            alert(`GAS同期完了: ${addedCount} 件の単語帳を受信・更新しました。他端末のスマホとも共有されています。`);
         } catch (err) {
             console.error(err);
-            alert('オンライン同期に失敗しました。ネットワーク接続を確認してください。');
+            alert('GASからの同期に失敗しました。URLおよびデプロイ設定(アクセス権: 全員)を確認してください。');
         }
     },
 
@@ -980,20 +1180,23 @@ const App = {
 
     async publishSelectedNotebookToOnline() {
         if (!this.isDeveloperMode) {
-            return alert('オンライン単語帳の公開・同期には開発者認証（0064）が必要です。');
+            return alert('オンライン単語帳の保存には開発者認証（0064）が必要です。');
         }
+        const gasUrl = this.getGasUrl();
+
         const nb = this.getUserData().notebooks.find(n => n.id === this.selectedNotebookId);
         if (!nb) return;
 
-        if (!confirm(`単語帳「${nb.title}」をクラウドに公開しますか？\n他のスマートフォンやPCでも「クラウド更新」から共通して利用できるようになります。`)) return;
+        if (!confirm(`単語帳「${nb.title}」をGoogle Apps Scriptを通じてクラウドに保存しますか？`)) return;
 
         nb.isOnlineShared = true;
         nb.updatedAt = Date.now();
 
         try {
+            // クラウド上の既存リストを取得
             let list = [];
             try {
-                const res = await fetch(CLOUD_SYNC_URL);
+                const res = await fetch(gasUrl, { redirect: 'follow' });
                 if (res.ok) list = await res.json();
             } catch(e) {}
             if (!Array.isArray(list)) list = [];
@@ -1001,22 +1204,18 @@ const App = {
             list = list.filter(item => item.id !== nb.id);
             list.push(nb);
 
-            const putRes = await fetch(CLOUD_SYNC_URL, {
+            // POST 送信 (CORSプリフライトを回避するためプレーンテキスト形式で送信)
+            await fetch(gasUrl, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(list)
             });
 
-            if (putRes.ok) {
-                this.save();
-                this.renderNotebookFiles();
-                alert(`「${nb.title}」をオンライン共通単語帳としてクラウドに保存しました！\n他のスマホや別端末で「クラウド更新」を押すと即座に取り込まれます。`);
-            } else {
-                throw new Error('Save status ' + putRes.status);
-            }
+            this.save();
+            this.renderNotebookFiles();
+            alert(`「${nb.title}」をGASクラウドに保存しました！ 他の端末で「同期」を実行すると即座に反映されます。`);
         } catch (err) {
             console.error(err);
-            alert('クラウドへの保存に失敗しました。');
+            alert('GASへの保存に失敗しました。');
         }
     },
 
@@ -1025,7 +1224,7 @@ const App = {
         window.speechSynthesis.cancel();
         const u = new SpeechSynthesisUtterance(text);
         u.lang = 'en-US';
-        u.rate = 0.95;
+        u.rate = 0.92;
         window.speechSynthesis.speak(u);
     },
 
@@ -1055,10 +1254,13 @@ const App = {
     toggleFastSimulation() {
         this.isFastSimulation = !this.isFastSimulation;
         const btn = document.getElementById('sim-mode-btn');
+        const text = document.getElementById('sim-mode-text');
         if (this.isFastSimulation) {
-            btn.innerText = '秒速検証中(1日=10秒)';
+            btn.classList.add('active');
+            text.innerText = '10s/日';
         } else {
-            btn.innerText = '通常(1日=24時間)';
+            btn.classList.remove('active');
+            text.innerText = '検証';
         }
         this.updateGlobalReviewBadge();
         if (this.selectedNotebookId) this.renderManageQuestionsList();
@@ -1136,6 +1338,7 @@ const App = {
 
     switchTab(tabName) {
         this.stopQuestionTimer();
+        this.isWaitingNextAction = false;
         document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
         document.querySelectorAll('.site-nav button').forEach(el => el.classList.remove('active'));
         
@@ -1559,6 +1762,7 @@ const App = {
 
     showView(viewType) {
         this.stopQuestionTimer();
+        this.isWaitingNextAction = false;
         document.getElementById('review-mode-select-view').classList.add('hidden');
         document.getElementById('play-container-mixed').classList.add('hidden');
         document.getElementById('play-container-choice').classList.add('hidden');
@@ -1631,9 +1835,17 @@ const App = {
         this.currentNotebookTitle = nb.title;
     },
 
-    /* =======================================================
-       1. 並べ替え ＆ 単語入力 ミックス演習
-       ======================================================= */
+    goToNextQuestion() {
+        this.isWaitingNextAction = false;
+        this.currentSessionIndex++;
+        if (this.currentPlayMode === 'mixed') {
+            this.loadMixedQuestion();
+        } else if (this.currentPlayMode === 'choice') {
+            this.loadChoiceQuestion();
+        }
+    },
+
+    /* 並べ替え ＆ 単語入力 ミックス演習 */
     pickTargetWord(english) {
         const cleanWords = english.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "").split(/\s+/).filter(w => w.length > 0);
         if (cleanWords.length <= 1) return cleanWords[0] || english;
@@ -1649,6 +1861,7 @@ const App = {
     },
 
     loadMixedQuestion() {
+        this.isWaitingNextAction = false;
         if (this.currentSessionIndex >= this.sessionQuestions.length) {
             alert('すべての問題が終了しました。');
             this.switchTab('home');
@@ -1671,10 +1884,12 @@ const App = {
         document.getElementById('mixed-progress').innerText = `問題 ${this.currentSessionIndex + 1} / ${this.sessionQuestions.length}`;
         document.getElementById('mixed-notebook-name').innerText = this.currentNotebookTitle;
         document.getElementById('mixed-japanese').innerText = this.currentQuestion.japanese;
-        document.getElementById('mixed-result').innerText = '';
-        document.getElementById('mixed-speech-btn').style.display = 'none';
+        document.getElementById('mixed-result').innerHTML = '';
+        document.getElementById('mixed-next-btn-container').classList.add('hidden');
 
-        // 判定: 単語数が1なら常に単語入力。2単語以上なら並べ替えと単語入力を約50%でミックス
+        document.getElementById('mixed-input-action-bar').classList.remove('hidden');
+        document.getElementById('mixed-reorder-action-bar').classList.remove('hidden');
+
         const wordCount = this.currentQuestion.english.trim().split(/\s+/).length;
         if (wordCount <= 1) {
             this.mixedSubMode = 'input';
@@ -1693,7 +1908,6 @@ const App = {
 
             this.mixedTargetWord = this.pickTargetWord(this.currentQuestion.english);
             
-            // ヒント表示 (文字数)
             const hintEl = document.getElementById('mixed-input-hint');
             hintEl.innerText = `(${this.mixedTargetWord.length} 文字)`;
 
@@ -1719,8 +1933,8 @@ const App = {
         this.startQuestionTimer('mixed-timer');
     },
 
-    // 単語入力の解答判定
     checkMixedInputAnswer() {
+        if (this.isWaitingNextAction) return;
         this.stopQuestionTimer();
         const elapsedSeconds = parseFloat(((Date.now() - this.questionStartTime) / 1000).toFixed(1));
         const inputEl = document.getElementById('mixed-word-input');
@@ -1739,29 +1953,30 @@ const App = {
             : `次回: 約${sm2Result.interval}日後`;
 
         inputEl.disabled = true;
-
-        const speechBtn = document.getElementById('mixed-speech-btn');
-        speechBtn.style.display = 'inline-block';
-        speechBtn.onclick = () => this.speak(this.mixedTargetWord);
+        document.getElementById('mixed-input-action-bar').classList.add('hidden');
 
         if (isCorrect) {
+            this.playCorrectSound();
             this.speak(this.mixedTargetWord);
-            if (sm2Result.isSlow) {
-                resEl.innerHTML = `<strong>正解 (${elapsedSeconds}s)</strong> - [${this.mixedTargetWord}] [${intervalMsg}]`;
-            } else {
-                resEl.innerHTML = `<strong>正解 (${elapsedSeconds}s)</strong> - [${this.mixedTargetWord}] 即答入力成功 [${intervalMsg}]`;
-            }
+            resEl.innerHTML = `
+                <div><span class="judgment-symbol correct">◯</span> <strong>正解 (${elapsedSeconds}s)</strong></div>
+                <div style="font-size: 16px; margin-top: 6px;">正解単語: <strong>${this.mixedTargetWord}</strong></div>
+                <div style="color:var(--text-sub); font-size:12px; margin-top: 4px;">次回間隔: [${intervalMsg}]</div>
+            `;
         } else {
-            resEl.innerHTML = `<strong>不正解</strong> - 正しい単語: <strong>${this.mixedTargetWord}</strong>`;
+            this.speak(this.currentQuestion.english);
+            resEl.innerHTML = `
+                <div><span class="judgment-symbol wrong">×</span> <strong>不正解</strong></div>
+                <div style="font-size: 16px; margin-top: 6px;">正解の単語: <strong>${this.mixedTargetWord}</strong></div>
+                <div style="font-size: 14px; margin-top: 4px; color:var(--text-sub);">正解の文全体: <strong>${this.currentQuestion.english}</strong></div>
+            `;
         }
 
-        setTimeout(() => {
-            this.currentSessionIndex++;
-            this.loadMixedQuestion();
-        }, 1600);
+        this.isWaitingNextAction = true;
+        document.getElementById('mixed-next-btn-container').classList.remove('hidden');
+        document.getElementById('mixed-next-btn').focus();
     },
 
-    // 並べ替えのUI描画
     renderMixedReorderUI() {
         const poolEl = document.getElementById('mixed-word-pool');
         const answerEl = document.getElementById('mixed-answer-zone');
@@ -1793,8 +2008,8 @@ const App = {
         this.renderMixedReorderUI(); 
     },
 
-    // 並べ替えの解答判定
     checkMixedReorderAnswer() {
+        if (this.isWaitingNextAction) return;
         this.stopQuestionTimer();
         const elapsedSeconds = parseFloat(((Date.now() - this.questionStartTime) / 1000).toFixed(1));
 
@@ -1810,39 +2025,41 @@ const App = {
             ? `次回: 約${sm2Result.interval * 10}秒後` 
             : `次回: 約${sm2Result.interval}日後`;
 
-        const speechBtn = document.getElementById('mixed-speech-btn');
-        speechBtn.style.display = 'inline-block';
-        speechBtn.onclick = () => this.speak(this.currentQuestion.english);
+        document.getElementById('mixed-reorder-action-bar').classList.add('hidden');
 
         if (isCorrect) {
+            this.playCorrectSound();
             this.speak(this.currentQuestion.english);
-            if (sm2Result.isSlow) {
-                resEl.innerHTML = `<strong>正解 (${elapsedSeconds}s)</strong> - [${intervalMsg}]`;
-            } else {
-                resEl.innerHTML = `<strong>正解 (${elapsedSeconds}s)</strong> - 定着が進んでいます [${intervalMsg}]`;
-            }
+            resEl.innerHTML = `
+                <div><span class="judgment-symbol correct">◯</span> <strong>正解 (${elapsedSeconds}s)</strong></div>
+                <div style="font-size: 16px; margin-top: 6px;">英文: <strong>${this.currentQuestion.english}</strong></div>
+                <div style="color:var(--text-sub); font-size:12px; margin-top: 4px;">次回間隔: [${intervalMsg}]</div>
+            `;
         } else {
-            resEl.innerHTML = `<strong>不正解</strong> - 正解: <strong>${this.currentQuestion.english}</strong>`;
+            this.speak(this.currentQuestion.english);
+            resEl.innerHTML = `
+                <div><span class="judgment-symbol wrong">×</span> <strong>不正解</strong></div>
+                <div style="font-size: 16px; margin-top: 6px;">正解の英文: <strong>${this.currentQuestion.english}</strong></div>
+            `;
         }
 
-        setTimeout(() => { 
-            this.currentSessionIndex++; 
-            this.loadMixedQuestion(); 
-        }, 1800);
+        this.isWaitingNextAction = true;
+        document.getElementById('mixed-next-btn-container').classList.remove('hidden');
+        document.getElementById('mixed-next-btn').focus();
     },
 
     skipQuestion() { 
         this.stopQuestionTimer();
+        this.isWaitingNextAction = false;
         this.currentSessionIndex++; 
         if (this.currentPlayMode === 'mixed') this.loadMixedQuestion();
         else if (this.currentPlayMode === 'choice') this.loadChoiceQuestion();
         else this.showView('mode_select');
     },
 
-    /* ============================
-       2. 四択クイズ（単語・意味）
-       ============================ */
+    /* 四択クイズ */
     loadChoiceQuestion() {
+        this.isWaitingNextAction = false;
         if (this.currentSessionIndex >= this.sessionQuestions.length) {
             alert('すべての問題が終了しました。');
             this.switchTab('home');
@@ -1865,7 +2082,9 @@ const App = {
         document.getElementById('choice-progress').innerText = `問題 ${this.currentSessionIndex + 1} / ${this.sessionQuestions.length}`;
         document.getElementById('choice-notebook-name').innerText = this.currentNotebookTitle;
         document.getElementById('choice-english').innerText = this.currentQuestion.english;
-        document.getElementById('choice-result').innerText = '';
+        document.getElementById('choice-result').innerHTML = '';
+        document.getElementById('choice-next-btn-container').classList.add('hidden');
+        document.getElementById('choice-skip-bar').classList.remove('hidden');
 
         document.getElementById('choice-speech-btn').onclick = () => this.speak(this.currentQuestion.english);
 
@@ -1896,6 +2115,7 @@ const App = {
     },
 
     checkChoiceAnswer(selectedAnswer) {
+        if (this.isWaitingNextAction) return;
         this.stopQuestionTimer();
         const elapsedSeconds = parseFloat(((Date.now() - this.questionStartTime) / 1000).toFixed(1));
         const isCorrect = (selectedAnswer === this.currentQuestion.japanese);
@@ -1909,27 +2129,30 @@ const App = {
             : `次回: 約${sm2Result.interval}日後`;
 
         document.querySelectorAll('.quiz-choice-btn').forEach(btn => btn.disabled = true);
+        document.getElementById('choice-skip-bar').classList.add('hidden');
 
         if (isCorrect) {
+            this.playCorrectSound();
             this.speak(this.currentQuestion.english);
-            if (sm2Result.isSlow) {
-                resEl.innerHTML = `<strong>正解 (${elapsedSeconds}s)</strong> - 思考時間を検知したため、間隔を短縮調整しました [${intervalMsg}]`;
-            } else {
-                resEl.innerHTML = `<strong>正解 (${elapsedSeconds}s)</strong> - 定着が進んでいます [${intervalMsg}]`;
-            }
+            resEl.innerHTML = `
+                <div><span class="judgment-symbol correct">◯</span> <strong>正解 (${elapsedSeconds}s)</strong></div>
+                <div style="font-size: 16px; margin-top: 6px;">和訳: <strong>${this.currentQuestion.japanese}</strong></div>
+                <div style="color:var(--text-sub); font-size:12px; margin-top: 4px;">次回間隔: [${intervalMsg}]</div>
+            `;
         } else {
-            resEl.innerHTML = `<strong>不正解</strong> - 正解: <strong>${this.currentQuestion.japanese}</strong> (忘却カウントをリセット)`;
+            this.speak(this.currentQuestion.english);
+            resEl.innerHTML = `
+                <div><span class="judgment-symbol wrong">×</span> <strong>不正解</strong></div>
+                <div style="font-size: 16px; margin-top: 6px;">正解の和訳: <strong>${this.currentQuestion.japanese}</strong></div>
+                <div style="font-size: 14px; margin-top: 4px; color:var(--text-sub);">正解の英文: <strong>${this.currentQuestion.english}</strong></div>
+            `;
         }
 
-        setTimeout(() => {
-            this.currentSessionIndex++;
-            this.loadChoiceQuestion();
-        }, 1400);
+        this.isWaitingNextAction = true;
+        document.getElementById('choice-next-btn-container').classList.remove('hidden');
     },
 
-    /* ============================
-       3. 日英マッチングタスク
-       ============================ */
+    /* マッチングタスク */
     loadMatchingTask() {
         const size = Math.min(5, this.sessionQuestions.length);
         let pool = [];
@@ -1941,6 +2164,7 @@ const App = {
         const nbTitle = this.sessionMode === 'all_review' ? '自動抽出' : this.getUserData().notebooks.find(n => n.id === this.selectedNotebookId).title;
         document.getElementById('matching-notebook-name').innerText = nbTitle;
         document.getElementById('matching-result').innerText = '';
+        document.getElementById('matching-next-btn-container').classList.add('hidden');
 
         const jps = pool.map((q, i) => ({ id: q.id, text: q.japanese, index: i }));
         const ens = pool.map((q, i) => ({ id: q.id, text: q.english, index: i }));
@@ -1996,6 +2220,7 @@ const App = {
             this.fetchActualQuestion(rawQ);
 
             if (jpId === enId) {
+                this.playCorrectSound();
                 this.matchingSelectedJp.classList.remove('selected');
                 this.matchingSelectedEn.classList.remove('selected');
                 this.matchingSelectedJp.classList.add('matched');
@@ -2010,19 +2235,16 @@ const App = {
                 const totalItems = document.querySelectorAll('.matching-item').length;
                 const matchedItems = document.querySelectorAll('.matching-item.matched').length;
                 if (totalItems === matchedItems) {
-                    document.getElementById('matching-result').innerHTML = `<strong>すべてのマッチングが完了しました</strong>`;
-                    setTimeout(() => {
-                        this.currentSessionIndex += 5;
-                        if (this.currentSessionIndex >= this.sessionQuestions.length) {
-                            alert('全セッションが終了しました。');
-                            this.switchTab('home');
-                        } else {
-                            this.loadMatchingTask();
-                        }
-                    }, 1400);
+                    document.getElementById('matching-result').innerHTML = `
+                        <div><span class="judgment-symbol correct">◯</span> <strong>全ペア成立！</strong></div>
+                    `;
+                    document.getElementById('matching-next-btn-container').classList.remove('hidden');
                 }
             } else {
-                document.getElementById('matching-result').innerHTML = `<strong>ペアが一致しません</strong>`;
+                this.speak(this.currentQuestion.english);
+                document.getElementById('matching-result').innerHTML = `
+                    <div><span class="judgment-symbol wrong" style="font-size:32px;">×</span> <strong>ミスマッチ</strong> (正解の英文: ${this.currentQuestion.english})</div>
+                `;
                 this.applySM2Algorithm(false, 0);
                 this.logHistory('matching', this.currentQuestion.english, false, 0, false);
 
@@ -2039,9 +2261,16 @@ const App = {
         }
     },
 
-    /* ============================
-       SM-2 アルゴリズム計算
-       ============================ */
+    finishMatchingSession() {
+        this.currentSessionIndex += 5;
+        if (this.currentSessionIndex >= this.sessionQuestions.length) {
+            alert('全セッションが終了しました。');
+            this.switchTab('home');
+        } else {
+            this.loadMatchingTask();
+        }
+    },
+
     applySM2Algorithm(isCorrect, elapsedSeconds) {
         const q = this.currentQuestion;
         q.hasLearned = true;
