@@ -36,7 +36,6 @@
             line-height: 1.6;
         }
 
-        /* 全画面レイアウト */
         .app-layout {
             width: 100%;
             min-height: 100vh;
@@ -168,7 +167,7 @@
         .main-content {
             width: 100%;
             flex: 1;
-            padding: 24px 24px 48px;
+            padding: 24px 24px 36px;
             max-width: 1400px;
             margin: 0 auto;
         }
@@ -235,7 +234,6 @@
         }
         .btn-link:hover { color: var(--link-hover); }
 
-        /* 「次の問題に進む」用の目立つアクションボタン */
         .btn-next-action {
             background-color: var(--link-blue);
             color: #fff;
@@ -273,7 +271,6 @@
             box-shadow: 0 0 0 1px var(--link-blue);
         }
 
-        /* ログインボックス */
         .auth-container {
             max-width: 360px;
             margin: 60px auto;
@@ -281,7 +278,6 @@
             border: 1px solid var(--border-light);
         }
 
-        /* データサマリー */
         .stats-row {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -305,7 +301,6 @@
             font-variant-numeric: tabular-nums;
         }
 
-        /* テーブル */
         .data-table {
             width: 100%;
             border-collapse: collapse;
@@ -327,7 +322,6 @@
             background-color: #fafbfc;
         }
 
-        /* 単語帳グリッド */
         .notebook-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -375,7 +369,6 @@
             background: var(--bg-active);
         }
 
-        /* モード選択 */
         .mode-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -402,7 +395,6 @@
             color: var(--text-sub);
         }
 
-        /* プレイエリア */
         .play-area {
             border: 1px solid var(--border-light);
             padding: 24px;
@@ -422,7 +414,6 @@
             line-height: 1.5;
         }
 
-        /* 判定表示（◯ / ✕ の超大型表示） */
         .judgment-symbol {
             font-size: 48px;
             line-height: 1;
@@ -436,7 +427,6 @@
             color: var(--text-main);
         }
 
-        /* 4択クイズのレイアウト */
         .quiz-choice-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -460,7 +450,6 @@
             color: var(--link-blue);
         }
 
-        /* 並べ替えパーツ */
         .word-pool, .answer-zone {
             display: flex;
             flex-wrap: wrap;
@@ -491,7 +480,6 @@
             background: var(--bg-active);
         }
 
-        /* マッチング */
         .matching-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -524,7 +512,6 @@
             pointer-events: none;
         }
 
-        /* モーダル */
         .modal {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -548,7 +535,22 @@
         .hidden { display: none !important; }
         .flex-row { display: flex; align-items: center; justify-content: space-between; }
 
-        /* スマホ向け最適化 */
+        /* 忍者AdMax 広告ラッパー */
+        .admax-outer-wrapper {
+            width: 100%;
+            margin-top: auto;
+            padding: 24px 0;
+            border-top: 1px dotted var(--border-dotted);
+            text-align: center;
+            background-color: var(--bg);
+        }
+        .admax-inner {
+            display: inline-block;
+            min-height: 60px;
+            max-width: 100%;
+            overflow: hidden;
+        }
+
         @media (max-width: 768px) {
             .site-header { padding: 8px 12px; }
             .site-title { font-size: 16px; }
@@ -557,7 +559,7 @@
             .icon-btn .btn-text { display: none; }
             .icon-btn { padding: 6px; }
             .site-nav { padding: 0 12px; }
-            .main-content { padding: 16px 12px 36px; }
+            .main-content { padding: 16px 12px 24px; }
             .stats-row { grid-template-columns: 1fr; }
             .mode-grid { grid-template-columns: 1fr; }
             .quiz-choice-grid { grid-template-columns: 1fr; }
@@ -587,35 +589,29 @@
                 Repetit <span class="version-tag">SM-2</span>
             </div>
 
-            <!-- ヘッダー操作アイコンバー（スマホ対応） -->
             <div class="header-actions">
                 <span class="user-label"><strong id="display-user"></strong></span>
 
-                <!-- クラウド同期ボタン -->
                 <button class="icon-btn" onclick="App.syncOnlineNotebooks()" title="クラウド同期 (GASから共通単語帳を取得)">
                     <svg viewBox="0 0 24 24"><path d="M21.5 15a4.5 4.5 0 0 0-3-4.24V10a6 6 0 0 0-11.83-1.42A4 4 0 0 0 3 12.5 4 4 0 0 0 7 16.5h1"></path><polyline points="16 16 19 19 22 16"></polyline><line x1="19" y1="13" x2="19" y2="19"></line></svg>
                     <span class="btn-text">同期</span>
                 </button>
 
-                <!-- GAS設定ボタン -->
                 <button class="icon-btn" onclick="App.showGasConfigModal()" title="Google Apps Script URL設定">
                     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                     <span class="btn-text">GAS設定</span>
                 </button>
 
-                <!-- 開発者権限トグル -->
                 <button class="icon-btn" id="dev-auth-btn" onclick="App.handleDevAuthToggle()" title="開発者権限コード(0064)">
                     <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                     <span class="btn-text" id="dev-auth-text">開発</span>
                 </button>
 
-                <!-- 検証モードトグル -->
                 <button class="icon-btn" id="sim-mode-btn" onclick="App.toggleFastSimulation()" title="検証用秒速モード切替">
                     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                     <span class="btn-text" id="sim-mode-text">検証</span>
                 </button>
 
-                <!-- ログアウト -->
                 <button class="icon-btn" onclick="App.logout()" title="ログアウト">
                     <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
                     <span class="btn-text">退出</span>
@@ -632,7 +628,6 @@
         </nav>
 
         <main class="main-content">
-            <!-- タブ: ホーム -->
             <div id="tab-home" class="tab-content">
                 <div class="section-heading">
                     <span>学習統計サマリー</span>
@@ -670,7 +665,6 @@
                 </table>
             </div>
 
-            <!-- タブ: 単語帳一覧 -->
             <div id="tab-files" class="tab-content hidden">
                 <div class="section-heading">
                     <span>単語帳一覧</span>
@@ -688,9 +682,7 @@
                 </div>
             </div>
 
-            <!-- タブ: 自動復習 & 実行 -->
             <div id="tab-review" class="tab-content hidden">
-                <!-- モード選択ビュー -->
                 <div id="review-mode-select-view">
                     <div class="section-heading">
                         <span id="review-session-title">学習形式の選択</span>
@@ -731,7 +723,6 @@
                         <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">日本語の意味</div>
                         <div id="mixed-japanese" class="phrase-main-text">-</div>
 
-                        <!-- サブエリアA: 単語入力問題 -->
                         <div id="mixed-sub-input" class="hidden">
                             <div style="font-size: 13px; color: var(--text-sub); margin-bottom: 8px;">
                                 上記の意味に当てはまる英単語を入力してください: <span id="mixed-input-hint" style="color:var(--text-muted); font-size: 12px;"></span>
@@ -745,7 +736,6 @@
                             </div>
                         </div>
 
-                        <!-- サブエリアB: 文節並べ替え問題 -->
                         <div id="mixed-sub-reorder" class="hidden">
                             <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 4px;">解答スロット (クリックで取り消し)</div>
                             <div class="answer-zone" id="mixed-answer-zone"></div>
@@ -760,7 +750,6 @@
                             </div>
                         </div>
 
-                        <!-- 結果表示エリア -->
                         <div id="mixed-result" style="margin-top: 16px;"></div>
                         <div id="mixed-next-btn-container" class="hidden" style="margin-top: 16px;">
                             <button id="mixed-next-btn" class="btn-next-action" onclick="App.goToNextQuestion()">次の問題に進む (Enter)</button>
@@ -822,22 +811,21 @@
                     </div>
                 </div>
 
-                <!-- 復習対象なしメッセージ -->
                 <div id="no-review-msg" class="hidden" style="padding: 40px 0; text-align: center;">
                     <p style="color: var(--text-sub); margin-bottom: 14px;">現在、復習期日を迎えているフレーズ・単語はありません。</p>
                     <button class="btn btn-secondary" onclick="App.switchTab('files')">単語帳一覧へ戻る</button>
                 </div>
             </div>
-
-            <!-- 忍者アドマックス 広告掲載エリア -->
-            <footer style="margin-top: 48px; padding-top: 24px; border-top: 1px dotted var(--border-dotted); text-align: center;">
-                <div style="display: inline-block; min-height: 60px;">
-                    <!-- admax -->
-                    <script src="https://adm.shinobi.jp/s/d29e3c2e6b7256b85a4ec8c06cd9d45b"></script>
-                    <!-- admax -->
-                </div>
-            </footer>
         </main>
+    </div>
+
+    <!-- 忍者AdMax 広告掲載エリア（ログイン前・後を問わず常に最下部に確実に常駐） -->
+    <div class="admax-outer-wrapper">
+        <div class="admax-inner">
+            <!-- admax -->
+            <script src="https://adm.shinobi.jp/s/d29e3c2e6b7256b85a4ec8c06cd9d45b"></script>
+            <!-- admax -->
+        </div>
     </div>
 </div>
 
@@ -899,7 +887,6 @@ function doPost(e) {
             <span id="manage-system-badge" style="font-size: 12px; color: var(--text-sub);"></span>
         </div>
 
-        <!-- 個別登録エリア -->
         <div style="background: var(--bg-subtle); border: 1px solid var(--border-light); padding: 16px; margin-bottom: 16px;">
             <div style="font-weight: 600; font-size: 13px; margin-bottom: 4px;">新しい単語・英文の追加</div>
             <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 10px;">
@@ -911,7 +898,6 @@ function doPost(e) {
             <button onclick="App.addQuestionToNotebook()" class="btn" style="width: 100%;">登録する</button>
         </div>
 
-        <!-- 一括CSVインポート -->
         <div style="border: 1px dashed var(--border-dotted); padding: 12px; margin-bottom: 20px;">
             <div class="flex-row">
                 <span style="font-size: 13px; font-weight: 600;">CSV / テキスト一括登録</span>
@@ -926,7 +912,6 @@ function doPost(e) {
             </div>
         </div>
 
-        <!-- 単語一覧と検索バー -->
         <div class="flex-row" style="margin-bottom: 8px;">
             <div style="font-weight: 600; font-size: 13px;">登録済みアイテム一覧 (<span id="manage-count">0</span>)</div>
             <input type="text" id="manage-search-input" placeholder="単語・訳で検索..." style="width: 220px; padding: 4px 8px; font-size: 12px; margin-bottom: 0;" oninput="App.filterManageList()">
@@ -953,9 +938,6 @@ function doPost(e) {
 </div>
 
 <script>
-/**
- * ご提供いただいたGoogle Apps Script Web App URL（組み込み済み）
- */
 const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbx0xeZs_scgrZK3JGaVazrCWcJuzMK6qRC72EQCLipDGRnKA8XPIlvu9ckNBf_G7jo5/exec";
 
 const DEFAULT_NOTEBOOKS = [
@@ -1135,7 +1117,6 @@ const App = {
         }
     },
 
-    /* Google Apps Script (GAS) クラウド同期 */
     async syncOnlineNotebooks() {
         const gasUrl = this.getGasUrl();
         alert("Google Apps Script経由でクラウドと同期しています...");
@@ -1193,7 +1174,6 @@ const App = {
         nb.updatedAt = Date.now();
 
         try {
-            // クラウド上の既存リストを取得
             let list = [];
             try {
                 const res = await fetch(gasUrl, { redirect: 'follow' });
@@ -1204,7 +1184,6 @@ const App = {
             list = list.filter(item => item.id !== nb.id);
             list.push(nb);
 
-            // POST 送信 (CORSプリフライトを回避するためプレーンテキスト形式で送信)
             await fetch(gasUrl, {
                 method: 'POST',
                 body: JSON.stringify(list)
@@ -1845,7 +1824,6 @@ const App = {
         }
     },
 
-    /* 並べ替え ＆ 単語入力 ミックス演習 */
     pickTargetWord(english) {
         const cleanWords = english.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "").split(/\s+/).filter(w => w.length > 0);
         if (cleanWords.length <= 1) return cleanWords[0] || english;
@@ -2057,7 +2035,6 @@ const App = {
         else this.showView('mode_select');
     },
 
-    /* 四択クイズ */
     loadChoiceQuestion() {
         this.isWaitingNextAction = false;
         if (this.currentSessionIndex >= this.sessionQuestions.length) {
@@ -2152,7 +2129,6 @@ const App = {
         document.getElementById('choice-next-btn-container').classList.remove('hidden');
     },
 
-    /* マッチングタスク */
     loadMatchingTask() {
         const size = Math.min(5, this.sessionQuestions.length);
         let pool = [];
